@@ -16,7 +16,32 @@ def cut_rod(p, n):
     assert(n > 0)
 
     cost = [0]
+    cuts = [0]
+    
+    for i in range(1, n+1):
+        cost.append(p[i])
+        cuts.append(i)
+        
+        for j in range(1, i):
+            
+            if p[j] + cost[i-j] > cost[i]:
+                cost[i] = p[j] + cost[i-j]
+                cuts[i] = j
 
+    res = "" + str(cost[n])
+    while n:
+        res = res + str(cuts[n])
+        n -= cuts[n]
+
+    return res
+
+def cut_rod_naive(p, n):
+
+    assert(n > 0)
+
+    cost = [0]
+    cuts = []
+    
     for i in range(1, n+1):
         cost.append(p[i])
 
@@ -25,13 +50,9 @@ def cut_rod(p, n):
 
     return cost[n]
 
-
 if __name__ == "__main__":
-    assert(cut_rod(price, 1) == 1)
-    assert(cut_rod(price, 2) == 5)
-    assert(cut_rod(price, 8) == 22)
-    assert(cut_rod(price, 10) == 30)
 
-
-
-   
+    assert(cut_rod(price, 1) == "11")
+    assert(cut_rod(price, 2) == "52")
+    assert(cut_rod(price, 8) == "2226")
+    assert(cut_rod(price, 10) == "3010")
